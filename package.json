@@ -1,0 +1,48 @@
+{
+  "name": "chili-postmessage",
+  "version": "0.1.0",
+  "description": "A small script to wrap common CHILI editorObject methods around postMessages",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "www/dist"
+  ],
+  "scripts": {
+    "build": "tsc && parcel build ./www/src/editorPostObject.js --target app && parcel build ./www/src/postMessageWrapper.js --target app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seancrowe/chili-postmessage.git"
+  },
+  "keywords": [
+    "chili"
+  ],
+  "author": "Sean Crowe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seancrowe/chili-postmessage/issues"
+  },
+  "homepage": "https://github.com/seancrowe/chili-postmessage#readme",
+  "dependencies": {
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@parcel/transformer-typescript-types": "^2.0.0-beta.2",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
+    "parcel": "^2.0.0-beta.2",
+    "typescript": "^4.2.3"
+  },
+  "browserslist": "> 0.25%",
+  "engines": {
+    "browsers": "> 0.25%"
+  },
+  "targets": {
+    "app": {
+      "distDir": "./www/dist/"
+    }
+  }
+}
