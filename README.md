@@ -1,4 +1,4 @@
-#About
+# About
 chili-postMessage project consists of two small scripts to wrap common CHILI editorObject methods around postMessages.
 
 There are two main parts to this project:
@@ -11,13 +11,13 @@ However, EditorPostObject is not really necessary as you can interface directly 
 - ExecuteFunction
 - AddListener
 
-##Motivation
+## Motivation
 CHILI publisher is required to be run in an iframe, which means that if you want to interact with the CHILI Editor you will need to follow the [same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy "same-origin policy") and have the parent window and iframe run on the same domain. However, in some instances this is not possible, such as running CHILI publisher on a third-party platform. In addition, the subdomain JavaScript trick using [document.domain](https://developer.mozilla.org/en-US/docs/Web/API/Document/domain "document.domain") to workaround the same-origin policy has recently been deprecated. Therefore, these scripts can be used in such environments.
 
-#Project Installation
+# Project Installation
 There are two options to install, you can use NPM or download the source on [Github](https://github.com/seancrowe/chili-postMessage "Github") and build the scripts.
 
-##NPM
+## NPM
 Downloading from NPM is super simple.
 ```
 npm install chili-postMessage
@@ -25,7 +25,7 @@ npm install chili-postMessage
 
 At which point you have access to either prebundled classes or classes ready for your next project.
 
-###Prebundled
+### Prebundled
 You can find the prebundled scripts in the ``www/dist`` directory of the downloaded npm package. The typical location is (assuming root folder of your project):
 ```
 ./node_modules/chili-postmessage/www/dist
@@ -48,7 +48,7 @@ Although typically, you will want to copy these files from this location to a be
 <script src="./scripts/editorPostObject.js" type="text/javascript"></script>
 ```
 
-###Next Project
+### Next Project
 If you want to bundle things yourself, you can use both classes by simply importing them into your project.
 
 Importing PostMessageWrapper
@@ -61,7 +61,7 @@ Importing EditorPostObject
 import {EditorPostObject}  from "chili-postmessage";
 ```
 
-##Source
+## Source
 You can clone or download the [Github](https://github.com/seancrowe/chili-postMessage "Github").
 
 You need to install dependencies with the NPM install command:
@@ -74,7 +74,7 @@ You can then build the project with the following:
 NPM run build
 ```
 
-#Using PostMessageWrapper
+# Using PostMessageWrapper
 PostMessageWrapper.js contains the most important part to using postMessages. Therefore, it is important to use this correctly.
 
 The PostMessageWrapper class has a static method ``PostMessageWrapper.setupEventListeners(editorObject)``. This class must be called on document load. You have two options to achieve this goal:
@@ -105,7 +105,7 @@ Potentially a more powerful option would be load the script externally using Jav
 
 The reason an external script would be desirable is that without it, you will need to hard code each template with the version of PostMessageWrapper, but to push updates to the script would rather difficult as each template would need to be updated.
 
-#Using EditorPostObject
+# Using EditorPostObject
 PostMessageWrapper is meant to run CHILI side, while EditorPostObject is meant to run on your app side.
 
 If using the prebundled editorPostObject.js, you will find the EditorPostObject class on the window. If using the non-bundled class, you can import the class using the import from syntax.
@@ -122,7 +122,7 @@ Using non-bundled EditorPostObject
 import {EditorPostObject}  from "chili-postmessage";
 ```
 
-##Constructor
+## Constructor
 Once we have the class, we will need to construct a new instance of EditorPostObject. The constructor method takes two parameters: 
 - the HTMLFrameElement object of your CHILI Editor running in an iframe
 - (optional) parent window where the addEventListener will be subscribed to - in most cases this not set
@@ -138,7 +138,7 @@ iframe.addEventListener("load", (e) =>{
 });
 ```
 
-##GetObject
+## GetObject
 GetObject method takes a single parameter, a CHILIpath string.
 
 The method returns a ``Promise<any>``.
@@ -154,7 +154,7 @@ const result = await editorPostObect.GetObject("document.zoom");
 console.log(result);
 ```
 
-##SetProperty
+## SetProperty
 Getting is fun, but sometimes we want to set properties. The SetProperty method has three parameters:
 - string -takes a CHILIpath
 - string - the name of the property
@@ -167,7 +167,7 @@ Here we are setting the document zoom. We do not care about the return value.
 editorPostObect.SetProperty("document", "zoom", 60);
 ```
 
-##ExecuteFunction
+## ExecuteFunction
 ExecuteFunction method had three parameters:
 - string - CHILIpath to the object
 - string - name of the function
@@ -185,7 +185,7 @@ Saving a document
 editorPostObject.ExecuteFunction('document', "Save");
 ```
 
-##AddListener
+## AddListener
 AddListener is a different method as you supply and event and a callback function.
 - string - event name
 - Function - callback function
