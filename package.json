@@ -1,6 +1,6 @@
 {
   "name": "chili-postmessage",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A small script to wrap common CHILI editorObject methods around postMessages",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

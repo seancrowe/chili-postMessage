@@ -1,5 +1,5 @@
 # About
-chili-postMessage project consists of two small scripts to wrap common CHILI editorObject methods around postMessages.
+chili-postmessage project consists of two small scripts to wrap common CHILI editorObject methods around postMessages.
 
 There are two main parts to this project:
 - PostMessageWrapper - which needs to be run CHILI side
@@ -20,7 +20,7 @@ There are two options to install, you can use NPM or download the source on [Git
 ## NPM
 Downloading from NPM is super simple.
 ```
-npm install chili-postMessage
+npm install chili-postmessage
 ```
 
 At which point you have access to either prebundled classes or classes ready for your next project.
@@ -79,13 +79,15 @@ PostMessageWrapper.js contains the most important part to using postMessages. Th
 
 The PostMessageWrapper class has a static method ``PostMessageWrapper.setupEventListeners(editorObject)``. This class must be called on document load. You have two options to achieve this goal:
 - Inject the script into the editor_html.aspx page utilizing a proxy server
-    - This is not described here
-    - To do this, you will need to wait until window.editorObject is not null
+  - This is not described here
+  - To do this, you will need to wait until window.editorObject is not null
 - Utilize [Document Actions](https://chilipublishdocs.atlassian.net/wiki/spaces/CPDOC/pages/1412117/Getting+Started+with+Document+Actions "Document Actions") to run the script in the document template
 
 Unfortunately, to respect CHILI publish wishes, I cannot fully describe how to utilize the Document Actions to implement this JavaScript. However, there is a very short video which describes this process. You may go to [spicy-labs](http://spicy-labs.com/ "spicy-labs") to request access to that video.
 
-However, the gist is that we need the following JavaScript to run in the document template:
+However, the gist is that we need the following JavaScript to run in the document template.
+
+You can hardcode the JavaScript directly. **Not recommended**
 ```javascript
 import {PostMessageWrapper}  from "chili-postmessage";
 PostMessageWrapper.setupEventListeners(window.editorObject);
@@ -101,9 +103,21 @@ window.postMessageWrapper.setupEventListeners(window.editorObject);
 
 <br/>
 
-Potentially a more powerful option would be load the script externally using JavaScript to add a ``<script>`` tag pointing to an external version of this postMessageWrapper.js script. This has not been tested at the moment, but should be for the next update.
+However, a potentially a more powerful option would be load the script externally using JavaScript to add a ``<script>`` tag pointing to an external version of this postMessageWrapper.js script.
 
-The reason an external script would be desirable is that without it, you will need to hard code each template with the version of PostMessageWrapper, but to push updates to the script would rather difficult as each template would need to be updated.
+This is suggested for two big reasons:
+* It allows you to avoid hardcoded JavaScript, so that changes to postMessageWrapper.js will be pushed to all documents.
+* It makes it easy to modify documents on document load in the Editor to include this document Action.
+
+Instead of hardcoded JavaScript, our new Document Action would create a script tag pointing to our JavaScript on an external server serving the file over HTTPS.
+```javascript
+let tag = document.createElement("script");
+tag.src = "https://hostingthewrapper.example.com/setupWrapper.js";
+document.getElementsByTagName("head")[0].appendChild(tag);
+```
+
+<br/>
+The JavaScript, whether hardcoded or on an external endpoint, will be the same. The difference is where it is being loaded.
 
 # Using EditorPostObject
 PostMessageWrapper is meant to run CHILI side, while EditorPostObject is meant to run on your app side.
@@ -113,7 +127,7 @@ Using prebundled editorPostObject.js
 ```html
 <script src="./scripts/editorPostObject.js" type="text/javascript"></script>
 <script type="text/javascript">
-    const EditorPostObject = window.EditorPostObject;
+  const EditorPostObject = window.EditorPostObject;
 </script>
 ```
 
@@ -123,7 +137,7 @@ import {EditorPostObject}  from "chili-postmessage";
 ```
 
 ## Constructor
-Once we have the class, we will need to construct a new instance of EditorPostObject. The constructor method takes two parameters: 
+Once we have the class, we will need to construct a new instance of EditorPostObject. The constructor method takes two parameters:
 - the HTMLFrameElement object of your CHILI Editor running in an iframe
 - (optional) parent window where the addEventListener will be subscribed to - in most cases this not set
 
@@ -133,7 +147,7 @@ const iframe = document.querySelector("#editor-iframe");
 
 iframe.addEventListener("load", (e) =>{
 
-    const editorPostObject = new EditorPostObject(e.target);
+  const editorPostObject = new EditorPostObject(e.target);
 
 });
 ```
@@ -195,7 +209,7 @@ AddListener is a different method as you supply and event and a callback functio
 Add an event for SelectedFrameChanged
 ```javascript
 editorPostObject.AddListener("SelectedFrameChanged", ()=>{
-    console.log("frameChanged");
+  console.log("frameChanged");
 });
 ```
 
