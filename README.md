@@ -1,3 +1,7 @@
+# DEPRECATED 🚨
+This small test has be deprecated in place of official support from CHILI publish. Please see:
+https://github.com/chili-publish/publisher-connector
+
 # About
 chili-postmessage project consists of two small scripts to wrap common CHILI editorObject methods around postMessages.
 
